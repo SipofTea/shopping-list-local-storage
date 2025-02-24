@@ -14,8 +14,8 @@ export default function App() {
     setNewItem("");
   };
 
-  const handleRemoveItem = (itemToDelete) => {
-    setShoppingList(shoppingList.filter((item) => item !== itemToDelete));
+  const handleRemoveItem = (indexToDelete) => {
+    setShoppingList(shoppingList.filter((_item, index) => index !== indexToDelete));
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function App() {
         {shoppingList.map((item, index) => (
           <li key={index}>
             {item}
-            <button onClick={() => handleRemoveItem(item)}>x</button>
+            <button onClick={() => handleRemoveItem(index)}>x</button>
           </li>
         ))}
       </ul>
