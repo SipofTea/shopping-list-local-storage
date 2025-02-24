@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import "./styles.css";
 import { useState } from "react";
 
 export default function App() {
-  const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingList, setShoppingList] = useState(() => {
+    return JSON.parse(localStorage.getItem('SHOPPING_LIST')) || []
+  });
   const [newItem, setNewItem] = useState("");
 
   const handleAddItem = (e) => {
@@ -14,6 +17,10 @@ export default function App() {
   const handleRemoveItem = (itemToDelete) => {
     setShoppingList(shoppingList.filter((item) => item !== itemToDelete));
   };
+
+  useEffect(() => {
+    if (shoppingList.length > 0) window.localStorage.setItem('SHOPPING_LIST', JSON.stringify(shoppingList))
+  }, [shoppingList]);
 
   return (
     <div className="App">
@@ -30,8 +37,8 @@ export default function App() {
         </form>
       </div>
       <ul>
-        {shoppingList.map((item) => (
-          <li>
+        {shoppingList.map((item, index) => (
+          <li key={index}>
             {item}
             <button onClick={() => handleRemoveItem(item)}>x</button>
           </li>
